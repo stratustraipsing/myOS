@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hundred Acre Wood OS</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <!-- DATE + TIME WIDGET -------------------------------------------------------------------------->
+    <div id="datetime">
+        <div id="time">time</div>
+        <div id="date">date</div>
+    </div>
+
+    <!-- WEATHER WIDGET -------------------------------------------------------------------------->
+
+    <div id="weather-widget">
+        <span id="search-city">
+            <input type="text" placeholder="weather: enter a city" spellcheck="false">
+            <button id="search-button">
+                <img src="./aesthetic/searching.png" alt="Search" width="20px" height="20px"/>
+            </button>
+        </span>
+        <div id="location-options"></div>
+        <div id="weather">
+            <img id="weather-icon">
+            <div id="weather-text">
+                <p id="temp"></p>
+                <p id="city"></p>
+            </div>
+        </div>
+        <p id="pooh-description"></p>
+    </div>
+
+    <!-- BATTERY WIDGET ----------------------------------------------------------------------------------->
+
+    <div id="battery-widget">
+        <img src="./aesthetic/eeyore.gif" id="eeyore" class="hidden">
+        <img src="./aesthetic/lightning.png" id="lightning" class="hidden">
+        <div id="battery-percent">-</div>
+        <div id="battery-shape">
+            <div id="battery-fill"></div>
+        </div>
+    </div>
+
+    <!-- WELCOME SIGN ----------------------------------------------------------------------------------->
+
+    <div class="welcome-wrapper">
+        <img src="aesthetic/welcome.png" alt="Welcome" id="welcome-image" title="click to delete"/>
+        <h1 id="click-to-delete"><i>(click to delete)</i></h1>
+    </div>
+
+    <!-- OWL'S LIBRARY POPUP--------------------------------------------------------------------------------->
+    <div id="notes-popup" class="hidden popup">
+        <div id="notes-window-header">
+            <span>Owl's Library: My Personal Collection</span>
+            <button class="close-button">X</button>
+        </div>
+
+        <div id="owl-strip">
+            <img src="./aesthetic/surprise_owl.gif" alt="owl" id="surprise-owl">
+            <div id="two-span-suggestion">
+                <span>Owl suggests:</span> <span id="owl-text"></span>
+            </div>
+        </div>
+
+        <div id="tab-bar">
+            <button class="tab-button" data-tab="tab1">Books</button>
+            <button class="tab-button" data-tab="tab2">Movies/TV Shows</button>
+            <button class="tab-button" data-tab="tab3">Quotes</button>
+        </div>
+
+        <div id="tab1" class="tab-content">
+            <textarea id="note-tab1" placeholder="Write your favorite books here..."></textarea>
+            <br>
+            <button class="save-button" data-note="note-tab1">Save</button>
+        </div>
+
+        <div id="tab2" class="tab-content">
+            <textarea id="note-tab2" placeholder="Write your favorite movies/TV shows here..."></textarea>
+            <br>
+            <button class="save-button" data-note="note-tab2">Save</button>
+        </div>
+
+        <div id="tab3" class="tab-content">
+            <textarea id="note-tab3" placeholder="Write your favorite quotes here..."></textarea>
+            <br>
+            <button class="save-button" data-note="note-tab3">Save</button>
+        </div>
+    </div>
+
+    <!-- MUSIC POPUP--------------------------------------------------------------------------------->
+
+    <div id="music-popup" class="hidden popup">
+        <div id="music-window-header">
+            <img src="./aesthetic/surprise_pooh.gif" alt="surprise pooh" width="10%" id="surprise-pooh"><span>Music Player</span>
+            <button class="close-button">X</button>
+        </div>
+        <div id="songs-list">
+            <p>* no Disney music because of copyright :( *</p>
+            <p>"Moment of Peace" - MickeysCat</p>
+            <audio controls loop><source src="./aesthetic/mickeyscatmusic.mp3" type="audio/mpeg"></audio>
+            <p>"The Island of Dreams" - KonstantinPazuzuStudio</p>
+            <audio controls loop><source src="./aesthetic/konstantinpazuzustudio-the-island-of-dreams-lullaby-on-island.mp3" type="audio/mpeg"></audio>
+            <p>"Enchanted/Whimsical" - Welc0mei0</p>
+            <audio controls loop><source src="./aesthetic/welc0mei0-enchanted:whimsical.mp3" type="audio/mpeg"></audio>
+            <p>"Old School Music" - Kontraa</p>
+            <audio controls loop><source src="./aesthetic/kontraa-old-school-music.mp3" type="audio/mpeg"></audio>
+            <p>"Fantasy" - Magaly Studio</p>
+            <audio controls loop><source src="./aesthetic/magalystudio-fantasy.mp3" type="audio/mpeg"></audio>
+        </div>
+    </div>
+
+    <!-- GOALS POPUP --------------------------------------------------------------------------------->
+
+    <div id="goals-popup" class="hidden popup">
+        <div id="goals-window-header">
+            <span>Rabbit's Goal Tracker</span>
+            <button class="close-button">X</button>
+        </div>
+        <div id="goal-container">
+            <p>My Current Goal is to...</p>
+            <textarea id ="goal1" placeholder="ex: finish biology homework &#10ex: practice piano &#10ex: make my bed"></textarea>
+            <p>Once I accomplish this, I will enjoy my progress by...</p>
+            <textarea id="goal2" placeholder="ex: watching a yt video on genetics &#10ex: playing my favorite piece &#10ex: watching a movie in bed"></textarea>
+            <button id="save-button-goal" >Save</button>
+            <button id="done-button-goal" >Done</button>
+        </div>
+    </div>
+
+    <!-- MOOD POPUP --------------------------------------------------------------------------------->
+
+    <div id="mood-popup" class="hidden popup">
+        <div id="mood-window-header">
+            <span>Piglet's Mood Support</span>
+            <button class="close-button">X</button>
+        </div>
+        <div id="mood-container">
+            <p>I'm feeling...</p>
+            <div id="icon-grid">
+                <button data-mood="Happy">
+                    <img src="./aesthetic/happy.png" alt="Happy Face">
+                </button>
+                <button data-mood="Sad">
+                    <img src="./aesthetic/sad.png" alt="Sad Face">
+                </button>
+                <button data-mood="Excited">
+                    <img src="./aesthetic/excited.png" alt="Excited Face">
+                </button>
+                <button data-mood="Loving">
+                    <img src="./aesthetic/loved.png" alt="Loving Face">
+                </button>
+                <button data-mood="Scared">
+                    <img src="./aesthetic/scared.png" alt="Scared Face">
+                </button>
+                <button data-mood="Embarassed">
+                    <img src="./aesthetic/embarassed.png" alt="Embarassed Face">
+                </button>
+                <button data-mood="Angry">
+                    <img src="./aesthetic/angry.png" alt="Angry Face">
+                </button>
+                <button data-mood="Tired">
+                    <img src="./aesthetic/tired.png" alt="Tired Face">
+                </button>
+                <button data-mood="Silly">
+                    <img src="./aesthetic/silly.png" alt="Silly Face">
+                </button>
+                <button data-mood="Frustrated">
+                    <img src="./aesthetic/frustrated.png" alt="Frustrated Face">
+                </button>
+            </div>
+            <div id="piglet-strip">
+                <img src="./aesthetic/piglet.gif" alt="piglet" id="piglet">
+                <div id="two-span-suggestion-piglet">
+                <span>Piglet says:</span> <span id="piglet-text"></span>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TV POPUP --------------------------------------------------------------------------------->
+        <img src = "aesthetic/tv.gif" alt="90s-ish TV" id="TV-popup" class="hidden">
+        <img src = "aesthetic/carrot_cart.gif" alt="Rabbit wheeling a bunch of carrots" id="rabbit-cart-gif" class="hidden">
+
+    <!-- TIMER POPUP --------------------------------------------------------------------------------->
+    <div id="timer-popup" class="hidden popup">
+        <div id="timer-window-header">
+            <span>Timer</span>
+            <button class="close-button">X</button>
+        </div>
+        <div id="timer-container">
+            <input id="set-hr" type="number" placeholder="hr">
+            <input id="set-min" type="number" placeholder="min">
+            <input id="set-sec" type="number" placeholder="sec">
+            <button id="set-timer-button">Set Timer</button>
+        </div>
+        <img src="aesthetic/hunny_pot.png" id="hunny-pot">
+        <div id="timer-display">00:00:00</div>
+        <button id="pause-button"><img src="aesthetic/playpause.png" alt="Pause"></button>
+        <img src="aesthetic/buzzy_bees.gif" id="buzzy-bees" class="hidden">
+    </div>
+
+     <!-- TERMINAL POPUP --------------------------------------------------------------------------------->
+    <div id="terminal-popup" class="hidden popup">
+        <div id="terminal-window-header">
+            <span>Terminal</span>
+            <button class="close-button">X</button>
+        </div>
+    </div>
+
+    <!-- APP DECK--------------------------------------------------------------------------------->
+
+    <div id="app-deck">
+        <button class="app-icon" id="library-button">
+            <img class="app-image" src="aesthetic/bookstack.png" alt="Book Stack" title="Owl's Library">
+        </button>
+        <button class="app-icon" id="music-button">
+            <img class="app-image" src="aesthetic/musicnote3.png" alt="Music Note" title="Music Player">
+        </button>
+        <button class="app-icon" id="goals-button">
+            <img class="app-image" src="aesthetic/carrot.png" alt="Carrot" title="Rabbit's Goal Tracker">
+        </button>
+        <button class="app-icon" id="mood-button">
+            <img class="app-image" src="aesthetic/sun.png" alt="Sun" title="Piglet's Mood Tracker">
+        </button>
+        <button class="app-icon" id="timer-button">
+            <img class="app-image" src="aesthetic/hunny.png">
+        </button>
+        <button class="app-icon" id="terminal-button">
+            <img class="app-image" src="aesthetic/trunk.png">
+        </button>
+    </div>
+
+</body>
+</html>
+
+<!--make it really hard to get rid of the welcome sign, so they have to figure out that
+the welcome sign rises up and then continues from the bottom of the page back to original spot swinging
+ you must find scissors and swipe over to cut the rope
+ add some part where you have to move the datetime widget
+ could potentially make my audience children, so useful features
+ that reward them with more learning + features
+ * this puzzle is so that you learn how to navigate the OS *  -->
