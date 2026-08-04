@@ -17,20 +17,43 @@ const timerButton = document.getElementById('timer-button');
 const terminalPopup = document.getElementById('terminal-popup');
 const terminalButton = document.getElementById('terminal-button');
 
+function fixBackground() {
+    let backgroundNum = localStorage.getItem("backgroundNum") || "0";
+        if(backgroundNum === '1') {
+            document.body.style.backgroundImage = "url('https://i.pinimg.com/736x/77/70/41/777041b50ae85237a36b7dda7305884d.jpg')";
+        } else if (backgroundNum === '2') {
+            document.body.style.backgroundImage = "url('https://i.pinimg.com/736x/ac/80/ae/ac80aebbf7954cb8dc40c44f30ecfac7.jpg')";
+        } else if (backgroundNum === '3') {
+            document.body.style.backgroundImage = "url('https://i.pinimg.com/1200x/72/03/c5/7203c5785dcdea25468d51d773aebe4a.jpg')";
+        } else {
+            document.body.style.backgroundImage = "url('https://i.pinimg.com/736x/f3/43/d1/f343d156f83c5a90b3b44edc1617ea44.jpg')";
+        }
+}
+
+fixBackground();
 
 // WELCOME SIGN
 
 const welcomeImage = document.getElementById('welcome-image');
 const clickToDelete = document.getElementById('click-to-delete');
 
-welcomeImage.addEventListener('click', () => {
+function poofSign() {
     welcomeImage.classList.add('clicked');
     clickToDelete.style.display = 'none';
 
     setTimeout(() => {
         welcomeImage.style.display = 'none';
     }, 800);
+}
+
+welcomeImage.addEventListener('click', () => {
+    poofSign();
 });
+
+if(localStorage.getItem("welcomeBool") === "false") {
+    welcomeImage.style.display = 'none';
+    clickToDelete.style.display = 'none';
+}
 
 //BATTERY
 
@@ -219,7 +242,6 @@ terminalButton.addEventListener('click', () => {
     openPopup(terminalPopup);
 })
 
-
 closeButton.forEach(button => {
     button.addEventListener('click', () => {
         const popup = button.closest('.popup');
@@ -229,6 +251,17 @@ closeButton.forEach(button => {
         }
     });
 });
+
+function closeAllBut() {
+    allPopups.forEach(popup => {
+        if(popup && popup.id !== 'terminal-popup') {
+            popup.classList.add('hidden');
+            if (popup && popup.id === 'notes-popup') {
+                clearInterval(suggestionInterval);
+            }
+        }
+    });
+}
 
 //GIF
 
@@ -418,6 +451,72 @@ function updateDisplayTime(totalSeconds) {
     timerDisplay.innerHTML = `${String(hr).padStart(2, '0')}:${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
 }
 
+//TERMINAL
+
+const terminalInput = document.getElementById('command');
+const userName = document.getElementById('user-name');
+const terminalOutput = document.getElementById('terminal-output');
+const terminalBox = document.getElementById('terminal-box');
+const welcomeSpan = document.getElementById('welcome-span');
+let user = localStorage.getItem("user") || "user";
+
+welcomeSpan.innerHTML = `Welcome ${user}!<br>Type 'help' to view available commands.`
+userName.innerHTML = `${user}@Hundred-Acre-Wood ~ %`;
+
+terminalInput.addEventListener('keydown', (event) => {
+
+    if(event.key === "Enter") {
+        const command = terminalInput.value;
+        terminalInput.value = "";
+        terminalOutput.innerHTML += `${user}@Hundred-Acre-Wood ~ % ${command}`;
+
+        if(command === "help") {
+            terminalOutput.innerHTML += `<div><br> help ----> show list of available commands <br> check ----> run a system check <br> explore [0-3] ----> <br> clear ----> clear terminal history <br> pro ----> remove (or restore) welcome sign on future entry <br> bye ----> close all apps <br> user [name] ----> set user name</div>`;
+        } else if(command === "check") {
+            terminalOutput.innerHTML += `<div><br> Running system check... <br> Owl's Library......OK <br> Music Player......OK <br> Rabbit's Goal Tracker......OK <br> Piglet's Mood Tracker......OK <br> Hunny Pot Timer......OK <br> System check complete.</div>`
+        } else if(command === "explore") {
+            terminalOutput.innerHTML += `<div><br>explore 0 or 1 or 2 or 3</div>`;
+        } else if(command.startsWith("explore ")) {
+            let posNum = command.substring(8);
+            if(posNum === '0' || posNum === '1' || posNum === '2' || posNum === '3') {
+                localStorage.setItem("backgroundNum", posNum);
+                terminalOutput.innerHTML += `<div><br>Successful change.</div>`;
+                fixBackground();
+            } else {
+                terminalOutput.innerHTML += `<div><br>Number out of bounds. Please choose 0, 1, 2, or 3.</div>`;
+            }
+        } else if(command === "clear") {
+            terminalOutput.innerHTML = "";
+        } else if(command === "pro") {
+            if(localStorage.getItem("welcomeBool") === "false") {
+                localStorage.setItem("welcomeBool", "true");
+                terminalOutput.innerHTML += `<div><br> Welcome sign will appear on future entry.</div>`;
+            } else {
+                poofSign();
+                localStorage.setItem("welcomeBool", "false");
+                terminalOutput.innerHTML += `<div><br> Welcome sign will no longer appear on entry.</div>`;
+            }
+        } else if(command === "bye") {
+            terminalOutput.innerHTML += "<div>All apps other than terminal successfully closed.</div>";
+            closeAllBut();
+        } else if(command.startsWith("user ")) {
+            user = command.substring(5).trim();
+            if(user === "") {
+                terminalOutput.innerHTML += `<div><br>Please enter a username</div>`;
+            } else {
+                terminalOutput.innerHTML += `<div><br>Username updated to ${user}.</div>`;
+                localStorage.setItem("user", user);
+                userName.innerHTML = `${user}@Hundred-Acre-Wood ~ %`;
+            }
+        }
+        else {
+            terminalOutput.innerHTML += `<div><br>Command not recognized.</div>`;
+        }
+        terminalOutput.innerHTML += `<br>`;
+        terminalBox.scrollTop = terminalBox.scrollHeight;
+    }
+});
+
 //DRAGGING FUNCTIONALITY
 
 function makeDraggable(element, handle = element) {
@@ -426,20 +525,20 @@ function makeDraggable(element, handle = element) {
     let newX = 0;
     let newY = 0;
 
-    handle.addEventListener('mousedown', (e) => {
-        startX = e.clientX;
-        startY = e.clientY;
+    handle.addEventListener('mousedown', (event) => {
+        startX = event.clientX;
+        startY = event.clientY;
 
         document.addEventListener('mousemove', mouseMove);
         document.addEventListener('mouseup', mouseUp);
     });
 
-    function mouseMove(e) {
-        newX = startX - e.clientX;
-        newY = startY - e.clientY;
+    function mouseMove(event) {
+        newX = startX - event.clientX;
+        newY = startY - event.clientY;
 
-        startX = e.clientX;
-        startY = e.clientY;
+        startX = event.clientX;
+        startY = event.clientY;
 
         element.style.top = (element.offsetTop - newY) + 'px';
         element.style.left = (element.offsetLeft - newX) + 'px';

@@ -10,7 +10,6 @@
 body {
     min-height: 100vh;
     margin: 0;
-    background-image: url("https://i.pinimg.com/736x/f3/43/d1/f343d156f83c5a90b3b44edc1617ea44.jpg");
     background-size: cover;
     background-attachment: fixed;
 }
@@ -33,6 +32,11 @@ p {
     overflow: hidden;
     cursor: default;
     z-index: 10;
+}
+
+#terminal-popup {
+    width: 600px;
+    padding: none;
 }
 
 #mood-popup {
@@ -130,7 +134,6 @@ p {
 textarea {
     width: 100%;
     min-height: 120px;
-    box-sizing: border-box;
     margin: 8px 0;
     padding: 10px;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -517,4 +520,35 @@ audio {
     left: 5%;
     width: 90%;
     height: 90%;
+}
+
+#terminal-box {
+    padding: 10px;
+    background-color: #181717;
+    color: white;
+    overflow-y: auto;
+    height: 200px;
+}
+
+#terminal-box * {
+    font-family: monospace;
+    color: white;
+}
+/*add white box to show where to type*/
+
+#terminal-message {
+    margin: 10px 0;
+}
+
+.command-line {
+    display: flex;
+    width: 100%;
+}
+
+#command {
+    flex: 1;
+    outline: none;
+    border: none;
+    background-color: #181717;
+    margin-left: 5px;
 }
