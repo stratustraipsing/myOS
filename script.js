@@ -696,6 +696,9 @@ function makeDraggable(element, handle = element) {
     });
 
     function mouseMove(event) {
+        if(event.target.closest('#search-city')) {
+            return;
+        }
         newX = startX - event.clientX;
         newY = startY - event.clientY;
 
