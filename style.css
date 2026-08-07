@@ -1,4 +1,5 @@
 * {
+    box-sizing: border-box;
     font-family: 'pooh', 'Trebuchet MS', sans-serif;
 }
 
@@ -12,6 +13,176 @@ body {
     margin: 0;
     background-size: cover;
     background-attachment: fixed;
+}
+
+#fade-brightness {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: rgba(0,0,0,.5);
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 899;
+}
+
+#fade-brightness.on {
+    opacity: 1;
+}
+
+#cut-zone {
+    background: invisible;
+    position: fixed;
+    top: 0;
+    left: 51%;
+    width: 1vw; 
+    height: 250px; 
+    z-index: 999;
+}
+
+.welcome-wrapper {
+    position: fixed;
+    text-align: center;
+    z-index: 10;
+}
+
+#rope-sign {
+    position: fixed;
+    top: -275px;
+    left: 38.5vw;
+    width: 320px;
+    display: block;
+    transform-origin: 50% 45%;
+    transform-style: preserve-3d;
+    user-select: none;
+    animation: pendulum 3.8s ease-in-out infinite;
+}
+
+#rope-sign.clicked {
+    animation: rise-and-fall 2.5s cubic-bezier(.25, .1, .15, 1) forwards;
+}
+
+#rope-sign:hover {
+    cursor: pointer;
+}
+
+#rope-sign.cut {
+    animation: drop .8s ease-in forwards;
+}
+
+@keyframes pendulum {
+  0%, 100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes drop {
+    0% {
+        transform: translateY(270px);
+    }
+    100% {
+        transform: translateY(1500px);
+    }
+}
+
+#click-to-delete {
+    display: none;
+    position: relative;
+    top: 50vh;
+    left: 50vw;
+    transform: translateX(-50%);
+    color: #ffffff;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+    white-space: nowrap;
+}
+
+.welcome-wrapper:hover #click-to-delete {
+    display: block;
+}
+
+/*all of this is relative to og position*/
+
+@keyframes rise-and-fall {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-400px);
+    }
+    100% {
+        transform: translateY(270px);
+    }
+}
+
+.look-here {
+    animation: bounce-big .6s ease-in;
+}
+
+@keyframes bounce-big {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+#speech-left {
+    position: fixed;
+    top: 50vh;
+    width: 380px;
+    z-index: 900;
+    user-select: none;
+}
+
+#speech-right {
+    position: fixed;
+    top: 50vh;
+    left: 69vw;
+    width: 380px;
+    z-index: 900;
+    user-select: none;
+}
+
+#speech-left img, #speech-right img {
+    width: 100%;
+}
+
+#text-right {
+    position: absolute;
+    color: black;
+    text-align: center;
+    top: 65px;
+    left: 22px;
+    width: 78%;
+}
+
+#text-left {
+    position: absolute;
+    color: black;
+    text-align: center;
+    top: 65px;
+    left: 20px;
+    width: 78%;
+}
+
+#yellow-hi {
+    background-color: #fef1ab;
+}
+
+#orange-hi {
+    background-color: #ffdbbb;
+}
+
+#pink-hi {
+    background-color: #ffc5d3;
 }
 
 p {
@@ -36,7 +207,7 @@ p {
 
 #terminal-popup {
     width: 600px;
-    padding: none;
+    padding: 0;
 }
 
 #mood-popup {
@@ -47,7 +218,12 @@ p {
     display: none;
 }
 
-#notes-window-header, #music-window-header, #goals-window-header, #mood-window-header, #timer-window-header, #terminal-window-header {
+#notes-window-header, 
+#music-window-header, 
+#goals-window-header, 
+#mood-window-header, 
+#timer-window-header, 
+#terminal-window-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -78,7 +254,7 @@ p {
     border-radius: 999px;
     min-width: 30px;
     height: 30px;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1;
     color: #5d3a1e;
 }
@@ -226,11 +402,11 @@ audio {
 
 #datetime, #weather-widget, #battery-widget {
     background: rgba(0, 0, 0, 0.5);
-    font-size: 50px;
+    font-size: 45px;
     padding: 25px;
     color: #ffffff;
     border-radius: 20px;
-    width: 210px;
+    width: 250px;
     user-select: none;
     touch-action: none;
     cursor: pointer;
@@ -238,6 +414,7 @@ audio {
     top: 120px;
     left: 50px;
     backdrop-filter: blur(4px);
+    z-index: 0;
 }
 
 #battery-widget {
@@ -252,7 +429,6 @@ audio {
     height: 50px;
     border-radius: 10px;
     margin: 0 0 0 10px;
-    box-sizing: border-box;
     padding: 5px;
 }
 
@@ -273,7 +449,7 @@ audio {
     left: 235px;
 }
 
-#lightning, #eeyore {
+#lightning, #eeyore, #tigger, #surprise-pooh {
     width: 40px;
     height: 40px;
     margin: 0 5px 0 0;
@@ -286,21 +462,31 @@ audio {
     z-index: 1;
 }
 
-#battery-percent {
-    font-size: 40px;
+#battery-percent {    font-size: 30px;
 }
 
 #date, #weather, #pooh-description {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 #datetime:hover {
     cursor: grab;
 }
 
+/* WEATHER */
+
+#scissors {
+    position: fixed;
+    top: 400px;
+    left: 320px;
+    width: 50px;
+    cursor: grab;
+    user-select: none;
+}
+
 #weather-widget {
     top: 300px;
-    width: 250px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -316,11 +502,13 @@ audio {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    gap: 10px;
 }
 
 #search-city input {
     border-radius: 25px;
-    border: 0;
+    border: none;
     height: 10px;
     padding: 10px;
     flex: 1;
@@ -370,66 +558,6 @@ audio {
     animation: shake 0.2s;
 }
 
-#welcome-image {
-    position: relative;
-    top: -50px;
-    left: 0;
-    width: 350px;
-    transform-origin: center top;
-    transform-style: preserve-3d;
-    animation: pendulum 4s ease-in-out infinite;
-    display: block;
-    margin: 0 auto;
-}
-
-#welcome-image:hover {
-    cursor: pointer;
-}
-
-.welcome-wrapper {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    perspective: 1200px;
-    width: 350px;
-    text-align: center;
-}
-
-@keyframes pendulum {
-  0%, 100% {
-    transform: rotate(-10deg);
-  }
-  50% {
-    transform: rotate(10deg);
-  }
-}
-
-#click-to-delete {
-    display: none;
-    position: relative;
-    top: 10px;
-    color: #ffffff;
-    font-size: 18px;
-    letter-spacing: 0.04em;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
-    white-space: nowrap;
-}
-
-#welcome-image:hover + #click-to-delete {
-    display: block;
-}
-
-#welcome-image.clicked {
-    animation: rise-away .7s ease-in forwards;
-}
-
-@keyframes rise-away {
-    100% {
-        transform: translateY(-350px);
-    }
-}
-
 #TV-popup {
     position: fixed;
     z-index: calc(infinity);
@@ -439,7 +567,7 @@ audio {
     transform: translate(-50%, -50%);
 }
 
-#rabbit-cart-gif {
+#rabbit-cart-gif, #pooh-1, #pooh-2, #pooh-3, #pooh-4 {
     position: fixed;
     z-index: calc(infinity);
     top: 16%;
@@ -447,6 +575,13 @@ audio {
     width: 54%;
     height: 69%;
     border-radius: 40px;
+}
+
+#nice-job {
+    position: fixed;
+    z-index: calc(infinity);
+    top: 31%;
+    left: 20%;
 }
 
 .fit-to-screen-animate {
@@ -524,7 +659,7 @@ audio {
 
 #terminal-box {
     padding: 10px;
-    background-color: #181717;
+    background-color: #242323;
     color: white;
     overflow-y: auto;
     height: 200px;
@@ -534,7 +669,6 @@ audio {
     font-family: monospace;
     color: white;
 }
-/*add white box to show where to type*/
 
 #terminal-message {
     margin: 10px 0;
@@ -549,6 +683,7 @@ audio {
     flex: 1;
     outline: none;
     border: none;
-    background-color: #181717;
+    background-color: #242323;
     margin-left: 5px;
+    caret-color: #807c7c;
 }

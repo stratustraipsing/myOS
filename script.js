@@ -20,12 +20,16 @@ const terminalButton = document.getElementById('terminal-button');
 function fixBackground() {
     let backgroundNum = localStorage.getItem("backgroundNum") || "0";
         if(backgroundNum === '1') {
-            document.body.style.backgroundImage = "url('https://i.pinimg.com/736x/77/70/41/777041b50ae85237a36b7dda7305884d.jpg')";
+            document.body.style.backgroundImage = "url('https://i.pinimg.com/1200x/e9/8c/8c/e98c8c63094a1c5844ecbe73c6edb70d.jpg')";
         } else if (backgroundNum === '2') {
-            document.body.style.backgroundImage = "url('https://i.pinimg.com/736x/ac/80/ae/ac80aebbf7954cb8dc40c44f30ecfac7.jpg')";
+            document.body.style.backgroundImage = "url('https://i.pinimg.com/1200x/63/ca/07/63ca072d3d142b39db009cb425b12a6c.jpg')";
         } else if (backgroundNum === '3') {
             document.body.style.backgroundImage = "url('https://i.pinimg.com/1200x/72/03/c5/7203c5785dcdea25468d51d773aebe4a.jpg')";
-        } else {
+        } else if (backgroundNum === '4') {
+            document.body.style.backgroundImage = "url('https://i.pinimg.com/1200x/36/11/67/3611679954441711c5e273561dc4fb17.jpg')";
+        } else if(backgroundNum === '5') {
+            document.body.style.backgroundImage = "url('https://i.pinimg.com/originals/e5/37/19/e5371924d75f5e5cee7484553c46bc39.gif')";
+        }else {
             document.body.style.backgroundImage = "url('https://i.pinimg.com/736x/f3/43/d1/f343d156f83c5a90b3b44edc1617ea44.jpg')";
         }
 }
@@ -34,24 +38,117 @@ fixBackground();
 
 // WELCOME SIGN
 
-const welcomeImage = document.getElementById('welcome-image');
+const ropeSign = document.getElementById('rope-sign');
 const clickToDelete = document.getElementById('click-to-delete');
 
-function poofSign() {
-    welcomeImage.classList.add('clicked');
-    clickToDelete.style.display = 'none';
+const speechLeft = document.getElementById('speech-left');
+const speechRight = document.getElementById('speech-right');
 
+const speechLeftText = speechLeft.children[1];
+const speechRightText = speechRight.children[1];
+
+ropeSign.addEventListener('click', () => {
+    ropeSign.classList.add('clicked');
+    clickToDelete.style.display = 'none';
     setTimeout(() => {
-        welcomeImage.style.display = 'none';
-    }, 800);
+        weatherWidget.style.zIndex = '901';
+        document.querySelector('.welcome-wrapper').style.zIndex = '900';
+        document.getElementById('fade-brightness').classList.add('on');
+        setTimeout(() => {
+            speechRightText.innerHTML = `<span id="yellow-hi">POOH:</span> Oh bother...that wasn't supposed to happen.  Can you perhaps search for a pair of scissors to cut the rope?  I would greatly appreciate the help.`;
+            speechRight.classList.remove('hidden');
+            lookHere(speechRight);
+        }, 1000);
+    }, 2700);
+    gameMode = 1;
+});
+
+// MISC GAME THINGS
+let gameMode = 0;
+
+const cutZone = document.getElementById('cut-zone');
+
+function checkCollided(element1, element2) {
+    const pos1 = element1.getBoundingClientRect();
+    const pos2 = element2.getBoundingClientRect();
+
+    if(pos1.left < pos2.right && pos1.right > pos2.left && pos1.top < pos2.bottom && pos1.bottom > pos2.top) {
+        return true;
+    }
+    return false;
 }
 
-welcomeImage.addEventListener('click', () => {
-    poofSign();
+function lookHere(element) {
+    element.classList.add('look-here');
+    setTimeout(() => {
+        element.classList.remove('look-here');
+    }, 800)
+}
+
+speechRightText.addEventListener('click', () => {
+    if(gameMode === 8) {
+        speechRightText.innerHTML = `Tigger was last seen dancing.`;
+    }
+})
+
+const surprisePooh = document.getElementById('surprise-pooh');
+surprisePooh.addEventListener('click', () => {
+    surprisePooh.classList.add('hidden');
+    TVPopup.classList.remove('hidden');
+    TVPopup.classList.add('fit-to-screen-animate');
+    setTimeout(() => {
+        document.getElementById('pooh-1').classList.remove('hidden');
+    }, 3000);
+    setTimeout(() => {
+        document.getElementById('pooh-1').classList.add('hidden');
+        document.getElementById('pooh-2').classList.remove('hidden');
+    }, 5000);
+    setTimeout(() => {
+        document.getElementById('pooh-2').classList.add('hidden');
+        document.getElementById('pooh-3').classList.remove('hidden');
+    }, 8500);
+    setTimeout(() => {
+        document.getElementById('pooh-3').classList.add('hidden');
+        document.getElementById('pooh-4').classList.remove('hidden');
+    }, 10500);
+    setTimeout(() => {
+        document.getElementById('pooh-4').classList.add('hidden');
+        TVPopup.classList.add('min-the-TV-animate');
+    }, 15000);
+    setTimeout(() => {
+        TVPopup.classList.add('hidden');
+        TVPopup.classList.remove('min-the-TV-animate');
+    }, 16500);
+})
+
+const tigger = document.getElementById('tigger');
+
+document.getElementById('out-of-place').addEventListener('play', () => {
+    tigger.classList.remove("hidden");
+});
+
+//move right speech rightwards + view on desktop
+//commit changes + check netlify
+//send out! family, friends, and then
+
+//hide pooh somehwere special and trigger a bunch of related happy gifs; + offer a hint for this somewhere
+
+tigger.addEventListener('click', () => {
+    tigger.classList.add("hidden");
+    //tell user hunny acquired
+    if(gameMode === 8) {
+        speechLeftText.innerHTML = `...`;
+        speechRightText.innerHTML = `<span id="yellow-hi">POOH:</span> What wonderful friends I have!  It's a funny old thing, but the best days are always the ones with friends in them.  Do come back and visit anytime.`
+        lookHere(speechRight);
+        setTimeout(() => {
+            speechLeftText.innerHTML = `[visit tree stump to end interactive walkthrough]`;
+        }, 4000);
+        gameMode = 9;
+    }
 });
 
 if(localStorage.getItem("welcomeBool") === "false") {
-    welcomeImage.style.display = 'none';
+    ropeSign.style.display = 'none';
     clickToDelete.style.display = 'none';
 }
 
@@ -106,6 +203,9 @@ const weatherWidget = document.getElementById('weather-widget');
 var currentLat;
 var currentLon;
 
+const scissors = document.getElementById('scissors');
+let isCityScissors = false;
+
 async function checkWeather(lat, lon){
     const apiURLWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
     const response = await fetch(apiURLWeather);
@@ -130,10 +230,23 @@ async function checkWeather(lat, lon){
     }
 
     document.getElementById('pooh-description').innerHTML = poohDescriptions[data.weather[0].main];
+
+    if(isCityScissors) {
+        scissors.style.zIndex = '900';
+        scissors.classList.remove('hidden');
+        speechRightText.innerHTML = `<span id="yellow-hi">POOH:</span> Look, they're right under there!  Try dragging anything that's in the way.`;
+        lookHere(speechRight);
+        cutZone.classList.remove('hidden');
+        gameMode = 2;
+    }
 }
 
 searchBtn.addEventListener("click", async () => {
     const city = searchBox.value;
+
+    if(gameMode === 1 && city.toLowerCase() === "scissors") {
+        isCityScissors = true;
+    }
 
     const apiURLGeo = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
     const response = await fetch(apiURLGeo);
@@ -166,7 +279,7 @@ searchBtn.addEventListener("click", async () => {
     });
 });
 
-searchBox.addEventListener("keydown", () => {
+searchBox.addEventListener("keydown", (event) => {
     locationOptions.innerHTML = "";
     if(event.key === "Enter") {
         searchBtn.click();
@@ -219,7 +332,12 @@ libraryButton.addEventListener('click', () => {
     cycleSuggestions();
     clearInterval(suggestionInterval);
     suggestionInterval = setInterval(cycleSuggestions, 15000);
-    openPopup(notesPopup)
+    openPopup(notesPopup);
+    if(gameMode === 3) {
+        speechRightText.innerHTML = `<span id="yellow-hi">POOH:</span> It looks like Owl has some recommendations for you, how kind!  Will you look around his library a bit?`;
+        lookHere(speechRight);
+        gameMode = 4;
+    }
 });
 
 musicButton.addEventListener('click', () => {
@@ -263,37 +381,43 @@ function closeAllBut() {
     });
 }
 
-//GIF
-
-const surprisePooh = document.getElementById('surprise-pooh');
-surprisePooh.addEventListener('click', function() {
-    surprisePooh.classList.add('hidden');
-});
-
 // Goal 'Done' -> TV POPUP
 
 const doneButton = document.getElementById('done-button-goal');
 const TVPopup = document.getElementById('TV-popup');
 const rabbitCartGIF = document.getElementById('rabbit-cart-gif');
+const niceJob = document.getElementById('nice-job');
 
 doneButton.addEventListener('click', () => {
     TVPopup.classList.remove('hidden');
     TVPopup.classList.add('fit-to-screen-animate');
     setTimeout(() => {
         rabbitCartGIF.classList.remove('hidden');
-    }, 3000);
+        niceJob.classList.remove('hidden');
+        setTimeout(() => {
+            niceJob.classList.add('hidden');
+        }, 2000);
+    }, 3500);
     setTimeout(() => {
         rabbitCartGIF.classList.add('hidden');
         TVPopup.classList.add('min-the-TV-animate');
-    }, 5600);
+    }, 5700);
     setTimeout(() => {
         TVPopup.classList.add('hidden');
         TVPopup.classList.remove('min-the-TV-animate');
     }, 8500);
+    if(gameMode === 5) {
+        speechLeftText.innerHTML = `...`;
+        speechRightText.innerHTML = `...`;
+        setTimeout(() => {
+            speechLeftText.innerHTML = `<span id="orange-hi">RABBIT:</span> Another task off the list, exactly as scheduled! But what's that dreadful buzzing sound I hear...help me find it, will you?`;
+            lookHere(speechLeft);
+            gameMode = 6;
+        }, 8000);
+    }
 });
 
 //GOALS LOCAL STORAGE
-// when click on that id'd save button, both text area's input is in local storage
 
 const saveButtonGoal = document.getElementById('save-button-goal');
 
@@ -327,6 +451,17 @@ tabButtons.forEach((button) => {
         tabButtons.forEach((tab) => tab.classList.remove('active'));
         button.classList.add('active');
         showTab(button.dataset.tab);
+        if(gameMode === 4 && button.dataset.tab === 'tab3') {
+            speechLeft.classList.remove('hidden');
+            speechLeftText.innerHTML = `<span id="orange-hi">RABBIT:</span> A visitor, is it?  Splendid timing.  Come along now, chop chop, let's get you organized for the day ahead at my carrot patch.`;
+            lookHere(speechLeft);
+            speechRightText.innerHTML = `...`;
+            setTimeout(() => {
+                speechRightText.innerHTML = `<span id="yellow-hi">POOH:</span> Oh, that's Rabbit.  If you don't care for planning right now, just come relax on over at our sitting-stump.`;
+                lookHere(speechRight);
+            }, 4000);
+            gameMode = 5;
+        }
     });
 });
 
@@ -362,7 +497,7 @@ function cycleSuggestions() {
 
 showTab('tab1');
 
-//PIGLET MOOD SUPPORT
+//PIGLET'S MOOD SUPPORT
 
 const pigletSupport = {
     Happy: "Oh! I'm so glad! What a wonderful thing to have such lovely days.",  
@@ -384,6 +519,16 @@ moodButtons.forEach((button) => {
     button.addEventListener('click', () => {
         const mood = button.dataset.mood;
         pigletText.innerText = pigletSupport[mood];
+        if(gameMode === 7 && mood === 'Frustrated') {
+            speechLeftText.innerHTML = `<span id="pink-hi">PIGLET:</span> Let-let's find Pooh some hunny elsewhere.  If we can find tigger, he's sure to have some.`;
+            lookHere(speechLeft);
+            setTimeout(() => {
+                speechRight.style.cursor = "grab";
+                speechRightText.innerHTML = `[click here if you need a hint]`;
+                lookHere(speechRight);
+            }, 4000);
+            gameMode = 8;
+        }
     })
 })
 
@@ -422,6 +567,16 @@ setTimerButton.addEventListener('click', () => {
             totalSeconds--;
             updateDisplayTime(totalSeconds);
             if(totalSeconds <=0) {
+                if(gameMode === 6) {
+                    speechLeftText.innerHTML = `...`;
+                    speechRightText.innerHTML = `<span id="yellow-hi">POOH:</span> My hunny!`;
+                    lookHere(speechRight);
+                    setTimeout(() => {
+                        speechLeftText.innerHTML = `<span id="pink-hi">PIGLET:</span> Oh d-dear...what happened?  Would you tell me how Pooh is feeling? Perhaps we could find a little sunshine for him?`;
+                        lookHere(speechLeft);
+                    }, 2000)
+                    gameMode = 7;
+                }
                 clearInterval(timerInterval);
                 let times = 0;
                 document.getElementById('buzzy-bees').classList.remove('hidden');
@@ -471,33 +626,42 @@ terminalInput.addEventListener('keydown', (event) => {
         terminalOutput.innerHTML += `${user}@Hundred-Acre-Wood ~ % ${command}`;
 
         if(command === "help") {
-            terminalOutput.innerHTML += `<div><br> help ----> show list of available commands <br> check ----> run a system check <br> explore [0-3] ----> <br> clear ----> clear terminal history <br> pro ----> remove (or restore) welcome sign on future entry <br> bye ----> close all apps <br> user [name] ----> set user name</div>`;
+            terminalOutput.innerHTML += `<div><br> help ----> show list of available commands <br> check ----> run a system check <br> explore [0-5] ----> <br> clear ----> clear terminal history <br> relax ----> remove (or restore) welcome sign on future entry <br> bye ----> close all apps <br> user [name] ----> set user name</div>`;
         } else if(command === "check") {
             terminalOutput.innerHTML += `<div><br> Running system check... <br> Owl's Library......OK <br> Music Player......OK <br> Rabbit's Goal Tracker......OK <br> Piglet's Mood Tracker......OK <br> Hunny Pot Timer......OK <br> System check complete.</div>`
         } else if(command === "explore") {
-            terminalOutput.innerHTML += `<div><br>explore 0 or 1 or 2 or 3</div>`;
+            terminalOutput.innerHTML += `<div><br>explore 0 or 1 or 2 or 3 or 4</div>`;
         } else if(command.startsWith("explore ")) {
             let posNum = command.substring(8);
-            if(posNum === '0' || posNum === '1' || posNum === '2' || posNum === '3') {
+            if(posNum === '0' || posNum === '1' || posNum === '2' || posNum === '3' || posNum === '4' || posNum === '5') {
                 localStorage.setItem("backgroundNum", posNum);
                 terminalOutput.innerHTML += `<div><br>Successful change.</div>`;
                 fixBackground();
+                if(posNum === '5') {
+                    setTimeout(() => {
+                        speechRightText.innerHTML = `<span id="yellow-hi">POOH:</span> Psst...You should search for me in the terminal.`;
+                        speechRight.classList.remove('hidden');
+                    }, 2000);
+                    setTimeout(() => {
+                        speechRight.classList.add('hidden');
+                    }, 4000);
+                }
             } else {
-                terminalOutput.innerHTML += `<div><br>Number out of bounds. Please choose 0, 1, 2, or 3.</div>`;
+                terminalOutput.innerHTML += `<div><br>Number out of bounds. Please choose 0, 1, 2, 3, 4, or 5.</div>`;
             }
         } else if(command === "clear") {
             terminalOutput.innerHTML = "";
-        } else if(command === "pro") {
+        } else if(command === "relax") {
             if(localStorage.getItem("welcomeBool") === "false") {
                 localStorage.setItem("welcomeBool", "true");
                 terminalOutput.innerHTML += `<div><br> Welcome sign will appear on future entry.</div>`;
             } else {
-                poofSign();
+                ropeSign.style.display = 'none';
                 localStorage.setItem("welcomeBool", "false");
-                terminalOutput.innerHTML += `<div><br> Welcome sign will no longer appear on entry.</div>`;
+                terminalOutput.innerHTML += `<div><br> Welcome sign will no longer appear on entry.  Please refresh to end the interactive walkthrough.</div>`;
             }
         } else if(command === "bye") {
-            terminalOutput.innerHTML += "<div>All apps other than terminal successfully closed.</div>";
+            terminalOutput.innerHTML += "<div><br>All apps other than the terminal successfully closed.</div>";
             closeAllBut();
         } else if(command.startsWith("user ")) {
             user = command.substring(5).trim();
@@ -508,6 +672,9 @@ terminalInput.addEventListener('keydown', (event) => {
                 localStorage.setItem("user", user);
                 userName.innerHTML = `${user}@Hundred-Acre-Wood ~ %`;
             }
+        } else if(command.toLowerCase() === "pooh" ) {
+            surprisePooh.classList.remove('hidden');
+            terminalOutput.innerHTML += `<div><br> Is that you, pooh?</div>`;
         }
         else {
             terminalOutput.innerHTML += `<div><br>Command not recognized.</div>`;
@@ -526,6 +693,7 @@ function makeDraggable(element, handle = element) {
     let newY = 0;
 
     handle.addEventListener('mousedown', (event) => {
+
         startX = event.clientX;
         startY = event.clientY;
 
@@ -542,6 +710,20 @@ function makeDraggable(element, handle = element) {
 
         element.style.top = (element.offsetTop - newY) + 'px';
         element.style.left = (element.offsetLeft - newX) + 'px';
+
+        if(element === scissors && checkCollided(scissors, cutZone)) {
+            ropeSign.classList.add('cut');
+            cutZone.classList.add('hidden');
+            setTimeout(() => {
+                ropeSign.classList.add('hidden');
+                scissors.classList.add('hidden');
+                document.getElementById('fade-brightness').classList.remove('on');
+                weatherWidget.style.zIndex = "0";
+                speechRightText.innerHTML = `<span id="yellow-hi">POOH:</span> Oh, wonderful!  You've done it. Wait a moment... I hear Owl in his library. Let's go and see what he's up to!`;
+                lookHere(speechRight);
+            }, 1000)
+            gameMode = 3;
+    }
     }
 
     function mouseUp() {
@@ -560,6 +742,8 @@ makeDraggable(goalsPopup, document.getElementById('goals-window-header'));
 makeDraggable(moodPopup, document.getElementById('mood-window-header'));
 makeDraggable(timerPopup, document.getElementById('timer-window-header'));
 makeDraggable(terminalPopup, document.getElementById('terminal-window-header'));
+
+makeDraggable(scissors, scissors);
 
 const updateDateTime = () => {
     const now = new Date();

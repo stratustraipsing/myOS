@@ -9,13 +9,38 @@
 </head>
 
 <body>
+    <div id="fade-brightness"></div>
+    <div id="cut-zone" class="hidden"></div>
+
+    <!-- WELCOME SIGN ----------------------------------------------------------------------------------->
+
+    <div class="welcome-wrapper">
+        <img src="aesthetic/rope_sign.png" id="rope-sign">
+        <h1 id="click-to-delete"><i>(click to delete)</i></h1>
+    </div>
+
+    <!-- SPEECH GUIDES ------------------------------------------------------------------------------->
+
+    <div id="speech-left" class="hidden">
+        <img src="aesthetic/rectSpeech.webp">
+        <p id="text-left"></p>
+    </div>
+
+    <div id="speech-right" class="hidden">
+        <img src="aesthetic/rectSpeech.webp">
+        <p id="text-right"></p>
+    </div>
+
     <!-- DATE + TIME WIDGET -------------------------------------------------------------------------->
+
     <div id="datetime">
         <div id="time">time</div>
         <div id="date">date</div>
     </div>
 
     <!-- WEATHER WIDGET -------------------------------------------------------------------------->
+
+    <img src="aesthetic/scissors.png" id="scissors" class="hidden" draggable="false">
 
     <div id="weather-widget">
         <span id="search-city">
@@ -46,14 +71,7 @@
         </div>
     </div>
 
-    <!-- WELCOME SIGN ----------------------------------------------------------------------------------->
-
-    <div class="welcome-wrapper">
-        <img src="aesthetic/welcome.png" alt="Welcome" id="welcome-image" title="click to delete"/>
-        <h1 id="click-to-delete"><i>(click to delete)</i></h1>
-    </div>
-
-    <!-- OWL'S LIBRARY POPUP--------------------------------------------------------------------------------->
+    <!-- OWL'S LIBRARY/NOTES POPUP--------------------------------------------------------------------------------->
     <div id="notes-popup" class="hidden popup">
         <div id="notes-window-header">
             <span>Owl's Library: My Personal Collection</span>
@@ -61,7 +79,7 @@
         </div>
 
         <div id="owl-strip">
-            <img src="./aesthetic/surprise_owl.gif" alt="owl" id="surprise-owl">
+            <img src="aesthetic/surprise_owl.gif" alt="owl" id="surprise-owl">
             <div id="two-span-suggestion">
                 <span>Owl suggests:</span> <span id="owl-text"></span>
             </div>
@@ -96,7 +114,7 @@
 
     <div id="music-popup" class="hidden popup">
         <div id="music-window-header">
-            <img src="./aesthetic/surprise_pooh.gif" alt="surprise pooh" width="10%" id="surprise-pooh"><span>Music Player</span>
+            <img src="aesthetic/tigger.gif" id="tigger" class="hidden"><span>Music Player</span>
             <button class="close-button">X</button>
         </div>
         <div id="songs-list">
@@ -108,7 +126,7 @@
             <p>"Enchanted/Whimsical" - Welc0mei0</p>
             <audio controls loop><source src="./aesthetic/welc0mei0-enchanted:whimsical.mp3" type="audio/mpeg"></audio>
             <p>"Old School Music" - Kontraa</p>
-            <audio controls loop><source src="./aesthetic/kontraa-old-school-music.mp3" type="audio/mpeg"></audio>
+            <audio controls loop id ="out-of-place"><source src="./aesthetic/kontraa-old-school-music.mp3" type="audio/mpeg"></audio>
             <p>"Fantasy" - Magaly Studio</p>
             <audio controls loop><source src="./aesthetic/magalystudio-fantasy.mp3" type="audio/mpeg"></audio>
         </div>
@@ -184,7 +202,14 @@
 
     <!-- TV POPUP --------------------------------------------------------------------------------->
         <img src = "aesthetic/tv.gif" alt="90s-ish TV" id="TV-popup" class="hidden">
+
         <img src = "aesthetic/carrot_cart.gif" alt="Rabbit wheeling a bunch of carrots" id="rabbit-cart-gif" class="hidden">
+        <img src = "aesthetic/nice_job.webp" alt="nice job!" id="nice-job" class="hidden">
+
+        <img src = "aesthetic/pooh1.gif" id="pooh-1" class="hidden">
+        <img src = "aesthetic/pooh2.gif" id="pooh-2" class="hidden">
+        <img src = "aesthetic/pooh3.gif" id="pooh-3" class="hidden">
+        <img src = "aesthetic/pooh4.gif" id="pooh-4" class="hidden">
 
     <!-- TIMER POPUP --------------------------------------------------------------------------------->
     <div id="timer-popup" class="hidden popup">
@@ -200,13 +225,14 @@
         </div>
         <img src="aesthetic/hunny_pot.png" id="hunny-pot">
         <div id="timer-display">00:00:00</div>
-        <button id="pause-button"><img src="aesthetic/playpause.png" alt="Pause"></button>
+        <button id="pause-button"><img src="aesthetic/playpause.png" alt="pause/play"></button>
         <img src="aesthetic/buzzy_bees.gif" id="buzzy-bees" class="hidden">
     </div>
 
      <!-- TERMINAL POPUP --------------------------------------------------------------------------------->
     <div id="terminal-popup" class="hidden popup">
         <div id="terminal-window-header">
+            <img src="aesthetic/surprise_pooh.gif" id="surprise-pooh" class="hidden">
             <span>Terminal</span>
             <button class="close-button">X</button>
         </div>
@@ -249,11 +275,3 @@
 
 </body>
 </html>
-
-<!--make it really hard to get rid of the welcome sign, so they have to figure out that
-the welcome sign rises up and then continues from the bottom of the page back to original spot swinging
- you must find scissors and swipe over to cut the rope
- add some part where you have to move the datetime widget
- could potentially make my audience children, so useful features
- that reward them with more learning + features
- * this puzzle is so that you learn how to navigate the OS *  -->
