@@ -127,12 +127,6 @@ document.getElementById('out-of-place').addEventListener('play', () => {
     tigger.classList.remove("hidden");
 });
 
-//move right speech rightwards + view on desktop
-//commit changes + check netlify
-//send out! family, friends, and then
-
-//hide pooh somehwere special and trigger a bunch of related happy gifs; + offer a hint for this somewhere
-
 tigger.addEventListener('click', () => {
     tigger.classList.add("hidden");
     //tell user hunny acquired
@@ -248,7 +242,7 @@ searchBtn.addEventListener("click", async () => {
         isCityScissors = true;
     }
 
-    const apiURLGeo = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
+    const apiURLGeo = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
     const response = await fetch(apiURLGeo);
     var data = await response.json();
 
